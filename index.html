@@ -1,24 +1,96 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bounty Hunter Gift Generator</title>
     <style>
-        body { font-family: Arial, sans-serif; text-align: center; margin-top: 50px; background-color: #f0f4f8;}
-        .container { background: white; padding: 30px; border-radius: 10px; display: inline-block; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
-        input { margin: 10px; padding: 10px; width: 250px; border: 1px solid #ccc; border-radius: 5px; }
-        button { padding: 12px 25px; background-color: #28a745; color: white; border: none; border-radius: 5px; font-weight: bold; cursor: pointer; }
-        button:hover { background-color: #218838; }
-        #result { margin-top: 25px; text-align: left; line-height: 1.8; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            /* Modern Gradient Background */
+            background: linear-gradient(135deg, #74ebd5 0%, #ACB6E5 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .container {
+            background: white;
+            padding: 40px 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            max-width: 400px;
+            width: 90%;
+            text-align: center;
+        }
+        h2 {
+            color: #333;
+            margin-top: 0;
+        }
+        p {
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 25px;
+        }
+        input {
+            margin: 10px 0;
+            padding: 12px;
+            width: 90%;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: border-color 0.3s;
+            box-sizing: border-box;
+        }
+        input:focus {
+            outline: none;
+            border-color: #74ebd5;
+            box-shadow: 0 0 5px rgba(116, 235, 213, 0.5);
+        }
+        button {
+            margin-top: 15px;
+            padding: 12px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: bold;
+            font-size: 16px;
+            cursor: pointer;
+            width: 100%;
+            transition: background-color 0.3s, transform 0.1s;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+        button:active {
+            transform: scale(0.98); /* Satisfying click effect */
+        }
+        #result {
+            margin-top: 25px;
+            text-align: left;
+            color: #444;
+        }
+        li {
+            margin-bottom: 12px;
+            padding: 12px;
+            background: #f8f9fa;
+            border-left: 4px solid #74ebd5;
+            border-radius: 4px;
+            line-height: 1.5;
+        }
     </style>
 </head>
 <body>
     <div class="container">
-        <h2>🎁 Thoughtful Gift Generator</h2>
+        <h2>🎁 Gift Generator</h2>
         <p>Enter details below to instantly generate 5 custom gift ideas.</p>
         
-        <input type="text" id="age" placeholder="Person's Age (e.g., 25)"><br>
-        <input type="text" id="hobbies" placeholder="Hobbies (e.g., Cooking, Gaming)"><br>
-        <input type="text" id="budget" placeholder="Your Budget (e.g., $50)"><br>
+        <input type="text" id="age" placeholder="Person's Age (e.g., 25)">
+        <input type="text" id="hobbies" placeholder="Hobbies (e.g., Gaming, Reading)">
+        <input type="text" id="budget" placeholder="Your Budget (e.g., ₹1500)">
         <button onclick="generateGifts()">Get Gift Ideas</button>
 
         <div id="result"></div>
@@ -32,25 +104,24 @@
             const resultDiv = document.getElementById('result');
             
             if (!age || !hobbies || !budget) {
-                resultDiv.innerHTML = "<p style='color:red;'><b>Error: Please fill in all 3 fields for the judge test.</b></p>";
+                resultDiv.innerHTML = "<p style='color:#dc3545; text-align:center;'><b>Error: Please fill in all 3 fields.</b></p>";
                 return;
             }
 
-            resultDiv.innerHTML = "<p><i>Generating thoughtful ideas...</i></p>";
+            resultDiv.innerHTML = "<p style='text-align:center; color:#666;'><i>✨ Generating thoughtful ideas...</i></p>";
 
             try {
-                // This talks to your Python file
                 const response = await fetch(`/api/index?age=${age}&hobbies=${hobbies}&budget=${budget}`);
                 const data = await response.json();
                 
-                let html = "<h3>Your 5 Suggested Gifts:</h3><ol>";
+                let html = "<h3 style='text-align:center;'>Your Suggested Gifts:</h3><ol style='padding-left: 20px;'>";
                 data.gifts.forEach(gift => {
                     html += `<li>${gift}</li>`;
                 });
                 html += "</ol>";
                 resultDiv.innerHTML = html;
             } catch (error) {
-                resultDiv.innerHTML = "<p style='color:red;'><b>System Error: Please refresh the page and try again.</b></p>";
+                resultDiv.innerHTML = "<p style='color:#dc3545; text-align:center;'><b>System Error: Please refresh the page.</b></p>";
             }
         }
     </script>
